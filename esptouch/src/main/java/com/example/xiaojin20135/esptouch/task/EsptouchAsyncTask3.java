@@ -33,8 +33,13 @@ public class EsptouchAsyncTask3  extends AsyncTask<String, Void, List<IEsptouchR
     // 2. task is created
     // 3. Oops, the task should be cancelled, but it is running
     private final Object mLock = new Object();
+
+    /**
+     * 在任务没有被线程池执行之前调用，运行在UI线程中；
+     */
     @Override
     protected void onPreExecute() {
+        Log.d(TAG,"in onPreExecute");
         //初始化值
         mWifiAdmin = EspHelper.ESP_HELPER.getmWifiAdmin();
         activity = EspHelper.ESP_HELPER.getActivity();
@@ -63,8 +68,14 @@ public class EsptouchAsyncTask3  extends AsyncTask<String, Void, List<IEsptouchR
         mProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
     }
 
+    /**
+     * 在任务被线程池执行时调用，运行在子线程，在此处理比较耗时的操作；
+     * @param params  泛型类型，启动任务执行需要输入的参数
+     * @return
+     */
     @Override
     protected List<IEsptouchResult> doInBackground(String... params) {
+        Log.d(TAG,"in doInBackground");
         int taskResultCount = -1;
         synchronized (mLock) {
             // !!!NOTICE
@@ -84,8 +95,13 @@ public class EsptouchAsyncTask3  extends AsyncTask<String, Void, List<IEsptouchR
         return resultList;
     }
 
+    /**
+     * 线程池执行任务结束时调用，回调给UI主线程结果，
+     * @param result
+     */
     @Override
     protected void onPostExecute(List<IEsptouchResult> result) {
+        Log.d(TAG,"in onPostExecute");
         mProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
         mProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setText("确认");
         IEsptouchResult firstResult = result.get(0);
@@ -112,6 +128,24 @@ public class EsptouchAsyncTask3  extends AsyncTask<String, Void, List<IEsptouchR
                 mProgressDialog.setMessage("设置失败！");
             }
         }
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+        Log.d(TAG,"in onProgressUpdate");
+    }
+
+    @Override
+    protected void onCancelled(List<IEsptouchResult> iEsptouchResults) {
+        super.onCancelled(iEsptouchResults);
+        Log.d(TAG,"in onCancelled iEsptouchResults");
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        Log.d(TAG,"in onCancelled");
     }
 
     private IEsptouchListener myListener = new IEsptouchListener() {
