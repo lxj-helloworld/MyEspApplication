@@ -25,13 +25,17 @@ Step 2. Add the dependency
 
 2、分配权限：
 
-
-<uses-permission android:name="android.permission.INTERNET"/>
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
-<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-
+    <!-- 常规权限 -->
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
+    <!-- 网络访问 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 访问GSM网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 获取当前WiFi接入状态以及WLAN热点信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    
 
 3、调用说明：
 
