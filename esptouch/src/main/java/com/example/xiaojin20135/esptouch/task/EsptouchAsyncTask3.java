@@ -124,6 +124,7 @@ public class EsptouchAsyncTask3  extends AsyncTask<String, Void, List<IEsptouchR
                     sb.append("\nthere's " + (result.size() - count) + " more result(s) without showing\n");
                 }
                 mProgressDialog.setMessage(sb.toString());
+                mProgressDialog.dismiss();
             } else {
                 mProgressDialog.setMessage("设置失败！");
             }
@@ -151,7 +152,7 @@ public class EsptouchAsyncTask3  extends AsyncTask<String, Void, List<IEsptouchR
     private IEsptouchListener myListener = new IEsptouchListener() {
         @Override
         public void onEsptouchResultAdded(final IEsptouchResult result) {
-            ResultHandler.RESULT_HANDLER.sendMessage(EspHelper.ESP_SUCCESS,result.getBssid());
+            ResultHandler.RESULT_HANDLER.sendMessage(EspHelper.ESP_SUCCESS,result.getBssid()+";;"+result.getInetAddress());
         }
     };
 }
